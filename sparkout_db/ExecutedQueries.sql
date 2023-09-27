@@ -82,11 +82,67 @@ select sum(id) from internship_batch;			-- min/max/avg/round/sum:
 
 select gender, count(id) as total_interns from internship_batch group by gender; -- group by is like a distinct:
 
+create table attendance(id int primary key,adate date);
+
+select * from internship_batch;
+
+alter table internship_batch add column dob date after name;
+
+update internship_batch  set dob = case id
+						 when 11 then '2000-03-02'
+						 when 12 then '1998-09-18'
+						 when 13 then '2001-10-11'
+						 when 14 then '2001-04-22'
+						 when 15 then '2001-09-22'
+						 when 16 then '2002-11-11'
+						 when 17 then '1998-10-10'
+						 when 18 then '1998-04-10'
+						 when 20 then '1999-09-09'
+						 when 21 then '1999-08-31'
+						 when 22 then '2000-10-27' end;
+						
+select * from internship_batch where dob < '2000-01-01';
 
 
+select distinct(role) as Domain,count(id) as interns_count from internship_batch group by role;
+
+select role as interns,count(role) as total from internship_batch where role='php developer' ;
+select role, count(if(role='Angular',1,null)) from internship_batch where role="Angular";
+
+select * from internship_batch;
+
+CREATE TABLE team_lead (
+  TL_id INT(10) NOT NULL AUTO_INCREMENT,
+  intern_id INT NOT NULL,
+  TLname VARCHAR(30) NOT NULL,
+  PRIMARY KEY (TL_id),
+  CONSTRAINT FOREIGN KEY (intern_id) REFERENCES internship_batch (id)
+);
+
+drop table team_lead;
+
+CREATE TABLE team_lead(
+  TL_id INT(10) NOT NULL,
+  intern_id INT NOT NULL,
+  TLname VARCHAR(30) NOT NULL,
+  CONSTRAINT FOREIGN KEY (intern_id) REFERENCES internship_batch (id)
+);
 
 
+insert into team_lead values(1,11,'Prasanth'),
+					 (1,12,'Prasanth'),
+					 (2,13,'Ruban'),
+					 (1,14,'Prasanth'),
+					 (1,15,'Prasanth'),
+					 (3,16,'Aravind'),
+					 (3,17,'Aravind'),
+					 (1,18,'Prasanth'),
+					 (2,20,'Ruban'),
+					 (3,21,'Aravind'),
+					 (1,22,'Prasanth');
 
-
-
-
+					select * from team_lead;
+				
+select i.name as intern_names, i.dob as DateofBirth, i.role as Role, t.TL_id, t.TLname as TeamLeader
+from internship_batch i inner join team_lead t
+on i.tl_id = t.TL_id;
