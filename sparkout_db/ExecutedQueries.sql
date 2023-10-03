@@ -141,8 +141,28 @@ insert into team_lead values(1,11,'Prasanth'),
 					 (3,21,'Aravind'),
 					 (1,22,'Prasanth');
 
+
+SELECT i.id, i.name,  
+       i.role, t.TLname
+FROM internship_batch i
+INNER JOIN team_lead t
+ON i.tl_id = t.TL_id group by i.name order by i.id asc;
+
 					select * from team_lead;
+					select * from internship_batch;
+		
+create view stipend_report as							
+select name, role,(case
+					when role="Php/Laravel" then 5000
+					when role="php developer" then 5000
+					when role="Node JS" then 5001
+					when role="Angular" then 5002
+					end) as stipend_Amt from internship_batch;
 				
-select i.name as intern_names, i.dob as DateofBirth, i.role as Role, t.TL_id, t.TLname as TeamLeader
-from internship_batch i inner join team_lead t
-on i.tl_id = t.TL_id;
+update internship_batch set role="Php/Laravel" where role='php developer';			
+
+show tables;
+show full tables;
+
+select * from stipend_report having stipend_Amt=5000;				-- having is used for view table column name:
+			
